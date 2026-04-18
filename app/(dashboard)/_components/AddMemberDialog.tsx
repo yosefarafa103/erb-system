@@ -8,7 +8,6 @@ import {
     DialogTitle,
     DialogTrigger
 } from "@/components/ui/dialog";
-
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
@@ -16,6 +15,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateUserInput, createUserSchema } from "../_schemas/users";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { PlusSignIcon } from "@hugeicons/core-free-icons";
+import { useRef } from "react";
+import { showToast } from "@/helpers/toast";
 export function AddUserDialog() {
     const form = useForm<CreateUserInput>({
         // @ts-ignore
@@ -28,13 +29,16 @@ export function AddUserDialog() {
             password: ""
         }
     });
+    const dialog = useRef<HTMLButtonElement | null>(null)
     const onSubmit = (data: CreateUserInput) => {
         form.reset()
-        console.log("NEW USER:", data);
+        dialog.current?.click()
+        showToast("success", "تم اضافة العضو بنجاح", "العضو الذي قمت بتعبئة بياناتة تم اضافتة الي النظام", "rtl")
     };
     return (
-        <Dialog>
-            <DialogTrigger asChild>
+        <Dialog
+        >
+            <DialogTrigger ref={dialog} asChild>
                 <Button variant="purple">
                     اضافة عضو جديد
                     <HugeiconsIcon icon={PlusSignIcon} />
@@ -55,7 +59,6 @@ export function AddUserDialog() {
                     <p className="text-red-400 text-xs">
                         {form.formState.errors.name?.message}
                     </p>
-
                     <Input
                         placeholder="البريد الإلكتروني"
                         {...form.register("email")}
@@ -63,7 +66,6 @@ export function AddUserDialog() {
                     <p className="text-red-400 text-xs">
                         {form.formState.errors.email?.message}
                     </p>
-
                     <Input
                         type="password"
                         placeholder="كلمة المرور"
@@ -94,10 +96,8 @@ export function AddUserDialog() {
                         <option value="enabled">مفعل</option>
                         <option value="disabled">غير مفعل</option>
                     </select>
-                    <Button type="submit" className="w-full" asChild>
-                        <DialogClose disabled={!!Object.keys(form.formState.errors).length}>
-                            إضافة
-                        </DialogClose>
+                    <Button disabled={[form.watch().email, form.watch().name, form.watch().password].some((el) => !el.length)} type="submit" className="w-full" >
+                        إضافة
                     </Button>
                 </form>
             </DialogContent>

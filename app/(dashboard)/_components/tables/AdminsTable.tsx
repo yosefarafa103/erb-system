@@ -18,11 +18,13 @@ import { Separator } from "@/components/ui/separator";
 import { useMemo } from "react";
 import { selectFilteredUsers } from "../../helpers";
 import { useTableFilters } from "../../stores/useTableStore";
+import { useGlobalSearch } from "../../stores/useGlobalSearch";
 export default function UsersTable() {
     const { search, role, status } = useTableFilters();
+    const { searchMap } = useGlobalSearch();
     const filteredData = useMemo(
-        () => selectFilteredUsers(data, search, role, status),
-        [data, search, role, status]
+        () => selectFilteredUsers(data, searchMap?.users || search, role, status),
+        [data, searchMap?.users, role, status, search]
     );
     const table = useReactTable({
         data: filteredData,
@@ -36,7 +38,7 @@ export default function UsersTable() {
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header, i) => (
-                                <TableHead className="text-right bg-gray-100" key={header.id}>
+                                <TableHead className="text-right bg-accent" key={header.id}>
                                     {i === 0 ? <>
                                         {flexRender(
                                             header.column.columnDef.header,
@@ -57,7 +59,7 @@ export default function UsersTable() {
                     ))}
                 </TableHeader>
                 <TableBody>
-                    {table.getRowModel().rows.map((row) => (
+                    {table.getRowModel().rows.length ? table.getRowModel().rows.map((row) => (
                         <TableRow key={row.id}>
                             {row.getVisibleCells().map((cell) => (
                                 <TableCell key={cell.id}>
@@ -68,9 +70,19 @@ export default function UsersTable() {
                                 </TableCell>
                             ))}
                         </TableRow>
-                    ))}
+                    )) :
+                        null
+                    }
                 </TableBody>
             </Table>
+            {
+                !table.getRowModel().rows.length ?
+                    <TableRow className="text-center flex justify-center w-full">
+                        <TableCell className="text-center">
+                            لم يتم العثور علي نتيجة بحثك
+                        </TableCell>
+                    </TableRow>
+                    : null}
         </div>
     );
 }

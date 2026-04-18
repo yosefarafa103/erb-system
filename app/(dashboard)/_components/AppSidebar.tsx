@@ -11,7 +11,7 @@ const AppSidebar = ({ children }: { children: React.ReactNode }) => {
         <SidebarProvider>
             <Sidebar side="right">
                 <SidebarHeader>الحساب الشخصي</SidebarHeader>
-                <SidebarContent>
+                <SidebarContent className="relative z-1000">
                     <SidebarGroup>
                         <SidebarGroupLabel> لوحه تحكم الادمن </SidebarGroupLabel>
                         <SidebarGroupContent>
@@ -39,7 +39,6 @@ const AppSidebar = ({ children }: { children: React.ReactNode }) => {
             <div className="w-full">
                 {children}
             </div>
-
         </SidebarProvider>
     )
 }
@@ -54,10 +53,10 @@ function SideBarMenuLinks() {
             const isActive = !!pathname.startsWith(`/dashboard/${module.key}`)
             return <SidebarMenuItem key={module.title.ar}>
                 <SidebarMenuButton isActive={isActive} >
-                    <Icon className={cn("w-5 h-5 text-white",
-                        isActive ? "text-white" : "text-purple-600"
+                    <Icon className={cn("w-5 h-5",
+                        isActive ? "text-foreground!" : "text-purple-600"
                     )} />
-                    <Link href={module.path}>
+                    <Link className="flex w-full" href={module.path}>
                         <span>{module.title.ar}</span>
                     </Link>
                 </SidebarMenuButton>

@@ -22,10 +22,16 @@ export interface LocalizedText {
     en: string;
     ar: string;
 }
-
+type ERPModuleKey =
+    | "users"
+    | "accounting"
+    | "inventory"
+    | "sales"
+    | "hr"
+    | "purchase";
 
 export type ERPModule = {
-    key: string;
+    key: ERPModuleKey;
     title: {
         en: string;
         ar: string;

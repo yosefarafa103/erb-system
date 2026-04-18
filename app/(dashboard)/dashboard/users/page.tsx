@@ -8,6 +8,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { User03Icon } from "@hugeicons/core-free-icons";
 import TableHeader from "../../_components/TableHeader";
 import TableFilterHeader from "../../_components/TableFilterHeader";
+import AuthorizationBlocks from "../../_components/AuthorizationBlocks";
 const UsersTable = dynamic(() => import("../../_components/tables/AdminsTable",))
 export default function page() {
     return (
@@ -27,21 +28,7 @@ export default function page() {
                         <AddUserDialog />
                     </div>
                     <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
-                        <RoleBlock
-                            role="admin"
-                            title="سوبر ادمن"
-                            users={users.filter(u => u.description === "مدير عام")}
-                        />
-                        <RoleBlock
-                            role="manager"
-                            title="المديرين"
-                            users={users.filter(u => u.description === "مدير")}
-                        />
-                        <RoleBlock
-                            role="accounting"
-                            title="المحاسبين"
-                            users={users.filter(u => u.description === "محاسب")}
-                        />
+                        <AuthorizationBlocks />
                     </div>
                 </div>
             </BlockWrapper>

@@ -12,7 +12,7 @@ const TableFilterHeader = () => {
     const { t } = useTranslation();
     const { setRole, role } = useTableFilters()
     return (
-        <section className='flex gap-2 items-center mb-3'>
+        <section className='flex gap-2 items-center mb-3 flex-wrap'>
             <Button onClick={() => setRole("all")} variant="outline"> الكل ({adminDataTable.length}) </Button>
             {[...tabs].map((el: Role, i) => (
                 <Button onClick={() => setRole(el)} variant={role === el ? 'purple' : "outline"}>{t("roles." + el)} ({fakeUsers[el]?.length})  </Button>

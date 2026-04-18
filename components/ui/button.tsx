@@ -20,7 +20,7 @@ const buttonVariants = cva(
           "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
         link: "text-primary underline-offset-4 hover:underline",
         purple: "text-white hover:bg-purple-500 bg-purple-700",
-        lightPurple: "hover:text-white hover:bg-purple-500 text-purple-500 bg-purple-50 border border border-purple-500",
+        lightPurple: "hover:text-white hover:bg-purple-500 text-purple-500 dark:text-forground dark:bg-purple-900/20 bg-purple-50 border border border-purple-500",
         lightYellow: "hover:text-white duration-400 hover:bg-blue-500/90 text-blue-500/90 bg-blue-30/90/40 border border border-blue-500/90",
       },
       size: {

@@ -1,8 +1,5 @@
+import { redirect } from "next/navigation";
 
 export default function Page() {
-  return (
-    <div className="flex min-h-svh p-2">
-      asdasd
-    </div>
-  )
+  return redirect("/dashboard/users")
 }

@@ -3,6 +3,7 @@ import { Role } from "../../_types";
 import { Status } from "../../_types/users";
 import { useTranslation } from "react-i18next";
 import { Separator } from "@/components/ui/separator";
+import UserActionsTable from "../UserActionsTable";
 type UserRow = {
   id: string;
   account: string;
@@ -97,6 +98,13 @@ export const columns: ColumnDef<UserRow>[] = [
           </div>
         </>
       );
+    }
+  },
+  {
+    accessorKey: " ",
+    maxSize: 20,
+    cell: ({ row }) => {
+      return <UserActionsTable />
     }
   }
 ];

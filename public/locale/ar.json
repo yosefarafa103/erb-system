@@ -59,10 +59,19 @@
       "accounting": "المحاسبة والمالية"
     }
   },
+
   "dashboard": {
     "title": "لوحة التحكم",
     "welcome": "مرحباً",
-    "overview": "نظرة عامة"
+    "overview": "نظرة عامة",
+    "search": {
+      "users": "المستخدمين",
+      "hr": "الموارد البشرية",
+      "inventory": " المخزون",
+      "sales": "المبيعات",
+      "purchase": "المشتريات",
+      "accounting": "المحاسبة"
+    }
   },
   "dialog": {
     "addUser": "إضافة عضو جديد",

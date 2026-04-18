@@ -22,7 +22,7 @@ export const erpModules: ERPModule[] = [
     },
     path: "/dashboard/users",
     allowedRoles: ["admin"]
-  },
+  } as const,
 
   {
     key: "accounting",
@@ -98,7 +98,9 @@ export const erpModules: ERPModule[] = [
     path: "/dashboard/purchase",
     allowedRoles: ["admin", "manager"]
   }
-];
+]
+
+
 export const users: User[] = [
   {
     id: "1",

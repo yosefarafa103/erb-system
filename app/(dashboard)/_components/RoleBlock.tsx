@@ -6,10 +6,11 @@ import { Button } from "@/components/ui/button";
 import { User } from "../_types/users";
 import { Role } from "../_types";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Settings01Icon } from "@hugeicons/core-free-icons";
+import { Settings01Icon, UserSearchIcon } from "@hugeicons/core-free-icons";
 import Link from "next/link";
 import { toast } from "sonner";
 import { showToast } from "@/helpers/toast";
+import { useGlobalSearch } from "../stores/useGlobalSearch";
 
 type RoleBlockProps = {
     title: string;
@@ -17,9 +18,9 @@ type RoleBlockProps = {
     role: Role
 };
 export function RoleBlock({ title, users, role }: RoleBlockProps) {
-    const a = !true
+    const a = !true;
     return (
-        <Card className="border-slate-700">
+        <Card className="border-slate-700 relative pb-12 ">
             <CardHeader className="flex flex-row items-center justify-between border-b-solid border-b-accent  border-b-2 pb-4">
                 <h3 className="text-xl text-foreground font-bold">{title}</h3>
                 <Button variant="lightPurple" className="text-sm">
@@ -27,12 +28,15 @@ export function RoleBlock({ title, users, role }: RoleBlockProps) {
                 </Button>
             </CardHeader>
             <CardContent className="space-y-4">
-                {users.slice(0, 4).map((user) => (
-                    <UserItem user={user} />
-                ))}
+                {!users.length ?
+                    <EmptyState /> :
+                    users.slice(0, 4).map((user) => (
+                        <UserItem user={user} />
+                    ))
+                }
             </CardContent>
-            <CardFooter>
-                <Button variant="lightYellow" className="w-full text-lg" asChild>
+            <CardFooter >
+                <Button variant="lightYellow" className="text-lg absolute bottom-4 left-2.5 w-[calc(100%-20px)]! " asChild>
                     {a ?
                         <Link href={`/dashboard/users/${role}`}>
                             <HugeiconsIcon icon={Settings01Icon} />
@@ -71,7 +75,7 @@ export default function UserItem({ user }: UserItemProps) {
                         {user.name}
                     </p>
                     <span
-                        className={`text-xs px-2 py-1 rounded ${roleStyles[user.role]}`}
+                        className={`text-xs px-2 py-1 rounded ${roleStyles[user.role]} mt-1 flex justify-center `}
                     >
                         {user.description}
                     </span>
@@ -87,5 +91,44 @@ export default function UserItem({ user }: UserItemProps) {
                 {user.status.ar}
             </span>
         </div>
+    );
+}
+
+
+type EmptyStateProps = {
+    title?: string;
+    description?: string;
+    actionText?: string;
+    onAction?: () => void;
+};
+
+function EmptyState({
+    title = "لا يوجد مستخدمين",
+    description = "لم يتم العثور على أي بيانات في هذا القسم",
+    actionText = "إضافة مستخدم",
+    onAction
+}: EmptyStateProps) {
+    return (
+        <Card className="border-dashed border-muted">
+            <CardContent className="flex flex-col items-center justify-center py-10 text-center gap-4">
+
+                <div className="p-3 rounded-full bg-muted">
+                    <HugeiconsIcon icon={UserSearchIcon} className="text-muted-foreground" />
+                </div>
+
+                <div>
+                    <h3 className="text-lg font-semibold">{title}</h3>
+                    <p className="text-sm text-muted-foreground mt-1">
+                        {description}
+                    </p>
+                </div>
+
+                {onAction && (
+                    <Button onClick={onAction} variant="lightPurple">
+                        {actionText}
+                    </Button>
+                )}
+            </CardContent>
+        </Card>
     );
 }
