@@ -1,0 +1,82 @@
+{
+  "common": {
+    "add": "إضافة",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "search": "بحث",
+    "seeAll": "عرض الكل",
+    "enabled": "مفعل",
+    "disabled": "غير مفعل",
+    "loading": "جارٍ التحميل",
+    "submit": "إرسال"
+  },
+
+  "auth": {
+    "login": "تسجيل الدخول",
+    "register": "إنشاء حساب",
+    "logout": "تسجيل الخروج",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "name": "الاسم"
+  },
+
+  "roles": {
+    "admin": "مدير عام",
+    "manager": "مدير",
+    "accounting": "محاسب"
+  },
+
+  "access": {
+    "full": "صلاحية كاملة",
+    "limited": "صلاحية محدودة",
+    "read": "قراءة فقط"
+  },
+
+  "users": {
+    "title": "المستخدمين",
+    "addUser": "إضافة عضو",
+    "account": "الحساب",
+    "email": "البريد الإلكتروني",
+    "role": "الدور",
+    "access": "الصلاحيات",
+    "status": "الحالة"
+  },
+
+  "status": {
+    "enabled": "مفعل",
+    "disabled": "غير مفعل"
+  },
+  "breadcrumb": {
+    "dashboard": {
+      "dashboard": "لوحة التحكم",
+      "users": "إدارة المستخدمين والصلاحيات",
+      "hr": "الموارد البشرية",
+      "inventory": "إدارة المخزون",
+      "sales": "إدارة المبيعات",
+      "purchase": "إدارة المشتريات",
+      "accounting": "المحاسبة والمالية"
+    }
+  },
+  "dashboard": {
+    "title": "لوحة التحكم",
+    "welcome": "مرحباً",
+    "overview": "نظرة عامة"
+  },
+  "dialog": {
+    "addUser": "إضافة عضو جديد",
+    "create": "إنشاء",
+    "close": "إغلاق"
+  },
+  "table": {
+    "noData": "لا توجد بيانات",
+    "actions": "الإجراءات"
+  },
+
+  "validation": {
+    "required": "هذا الحقل مطلوب",
+    "invalidEmail": "بريد إلكتروني غير صالح",
+    "minLength": "قيمة قصيرة جداً"
+  }
+}
