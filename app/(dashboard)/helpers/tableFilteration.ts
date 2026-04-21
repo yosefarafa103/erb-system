@@ -1,19 +1,19 @@
-import type { UserRow } from "../_types/users";
+import type { GetMeReponseType, UserRow } from "../_types/users";
 
 export const selectFilteredUsers = (
-    data: UserRow[],
+    data: GetMeReponseType[],
     search: string,
     role: string,
     status: string
 ) => {
     return data.filter((user) => {
-
+        const currentTenent = user.tenants.filter(t => t.tenantId._id === user.lastActiveTenant)
         const matchSearch =
-            user.account.includes(search) ||
+            user.name.includes(search) ||
             user.email.includes(search);
-        const matchRole = role === "all" || user.role === role;
-        const matchStatus = status === "all" || user.status === status;
+        const matchRole = role === "all" || currentTenent[0].role === role;
+        const matchStatus = status === "all" || currentTenent[0]?.status === status;
 
-        return matchSearch && matchRole && matchStatus;
+        return matchSearch && matchRole && matchStatus
     });
 };

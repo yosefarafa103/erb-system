@@ -7,7 +7,7 @@ type ToastType = "success" | "error" | "info";
 
 export function showToast(
   type: ToastType,
-  title: string,
+  title: React.ReactNode | string,
   description?: string,
   dir?: "rtl" | "ltr"
 ) {

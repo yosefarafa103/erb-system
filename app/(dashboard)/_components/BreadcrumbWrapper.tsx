@@ -12,7 +12,7 @@ const BreadcrumbWrapper = () => {
     let result = utils.getPathNameForBreadCrumb(pn);
     const { t } = useTranslation();
     return (
-        <Breadcrumb className="mt-2">
+        <Breadcrumb className="mt-3">
             <BreadcrumbList>
                 {result.map((item, i) => (
                     <>

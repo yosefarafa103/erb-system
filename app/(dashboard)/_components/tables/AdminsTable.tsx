@@ -19,18 +19,36 @@ import { useMemo } from "react";
 import { selectFilteredUsers } from "../../helpers";
 import { useTableFilters } from "../../stores/useTableStore";
 import { useGlobalSearch } from "../../stores/useGlobalSearch";
-export default function UsersTable() {
+import { GetMeReponseType, User } from "../../_types/users";
+export default function UsersTable({ users }: { users: GetMeReponseType[] }) {
     const { search, role, status } = useTableFilters();
     const { searchMap } = useGlobalSearch();
     const filteredData = useMemo(
-        () => selectFilteredUsers(data, searchMap?.users || search, role, status),
-        [data, searchMap?.users, role, status, search]
+        () => selectFilteredUsers(users, searchMap?.users || search, role, status),
+        [users, searchMap?.users, role, status, search]
     );
     const table = useReactTable({
         data: filteredData,
         columns,
         getCoreRowModel: getCoreRowModel()
     });
+    const getUsersWithRoleByTenant = (users: GetMeReponseType[], tenantId: string) => {
+        return users.map((user) => {
+            const tenant = user.tenants.find(
+                (t: any) => t.tenantId === tenantId
+            );
+
+            return {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                role: tenant?.role || "user",
+                status: tenant?.status || "inactive",
+            };
+        });
+    };
+    console.log(getUsersWithRoleByTenant(users, '69e54065c3b31b260d4a1d39'));
+
     return (
         <div className="rounded-xl border bg-background">
             <Table>

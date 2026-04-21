@@ -1,8 +1,10 @@
 import AppSidebar from "../_components/AppSidebar"
 import Header from "../_components/Header"
+// import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 export default function RolesLayout({
     children
 }: LayoutProps<"/dashboard">) {
+    // const queryClient = new QueryClient()
     return <>
         <AppSidebar>
             <Header />

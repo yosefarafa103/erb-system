@@ -31,15 +31,14 @@ export default function TableFilters() {
                 </Select>
                 <Select
                     dir="rtl"
-
                     value={status} onValueChange={setStatus}>
                     <SelectTrigger className="h-10 w-[160px] bg-background text-sm">
                         <SelectValue placeholder="كل الحالات" />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectItem value="all">كل الحالات</SelectItem>
-                        <SelectItem value="enabled">مفعل</SelectItem>
-                        <SelectItem value="disabled">غير مفعل</SelectItem>
+                        <SelectItem value="active">مفعل</SelectItem>
+                        <SelectItem value="inactive">غير مفعل</SelectItem>
                     </SelectContent>
                 </Select>
 

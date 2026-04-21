@@ -1,21 +1,26 @@
-"use client"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger, useSidebar } from "@/components/ui/sidebar"
-import { erpModules } from "../constants/dashboard"
 import Link from "next/link"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
-const AppSidebar = ({ children }: { children: React.ReactNode }) => {
+import { HugeiconsIcon } from "@hugeicons/react"
+import { CustomerSupportIcon, Settings, TeamviewerFreeIcons } from "@hugeicons/core-free-icons"
+import { SwitchAccounts } from "./SwitchAccount"
+import { Logout, SideBarMenuLinks } from "./SidebarCompund"
+import { getCurrentUser } from "@/app/(auth)/_services/auth.service"
+
+const AppSidebar = async ({ children }: { children: React.ReactNode }) => {
+    const user = await getCurrentUser();
+    console.log(user);
+
     return (
         <SidebarProvider>
-            <Sidebar side="right">
-                <SidebarHeader>الحساب الشخصي</SidebarHeader>
+            <Sidebar side="right" >
+                <SidebarHeader className="hover:text-white transition hover:bg-purple-500 text-purple-500 dark:text-forground dark:bg-purple-900/20 bg-purple-50 m-1 rounded-lg dark:border-sidebar-accent border">
+                    <AppSidebar.SwitchAccount userName={user.name} tenants={user.tenants} />
+                </SidebarHeader>
                 <SidebarContent className="relative z-1000">
                     <SidebarGroup>
                         <SidebarGroupLabel> لوحه تحكم الادمن </SidebarGroupLabel>
                         <SidebarGroupContent>
-                            <AppSidebar.SideBarMenuLinks />
+                            <SideBarMenuLinks />
                         </SidebarGroupContent>
                     </SidebarGroup>
                 </SidebarContent>
@@ -24,16 +29,20 @@ const AppSidebar = ({ children }: { children: React.ReactNode }) => {
                         <SidebarGroupLabel> اخر </SidebarGroupLabel>
                         <SidebarGroupContent>
                             <SidebarMenu>
-                                <SidebarMenuItem >
-                                    الاعدادت
-                                </SidebarMenuItem>
-                                <SidebarMenuItem >
-                                    الدعم
-                                </SidebarMenuItem>
+                                <SidebarMenuButton asChild>
+                                    <Link href='/dashboard/settings'>
+                                        <HugeiconsIcon icon={Settings} size={18} />الاعدادت
+                                    </Link>
+                                </SidebarMenuButton>
+                                <SidebarMenuButton asChild>
+                                    <Link href='/dashboard/support'>
+                                        <HugeiconsIcon icon={CustomerSupportIcon} size={18} />فريق الدعم
+                                    </Link>
+                                </SidebarMenuButton>
                             </SidebarMenu>
                         </SidebarGroupContent>
                     </SidebarGroup>
-                    <Logout />
+                    <AppSidebar.Logout user={user} />
                 </SidebarFooter>
             </Sidebar>
             <div className="w-full">
@@ -45,73 +54,7 @@ const AppSidebar = ({ children }: { children: React.ReactNode }) => {
 
 export default AppSidebar;
 
-function SideBarMenuLinks() {
-    const pathname = usePathname()
-    return <SidebarMenu>
-        {erpModules.map((module) => {
-            const Icon = module.icon
-            const isActive = !!pathname.startsWith(`/dashboard/${module.key}`)
-            return <SidebarMenuItem key={module.title.ar}>
-                <SidebarMenuButton isActive={isActive} >
-                    <Icon className={cn("w-5 h-5",
-                        isActive ? "text-foreground!" : "text-purple-600"
-                    )} />
-                    <Link className="flex w-full" href={module.path}>
-                        <span>{module.title.ar}</span>
-                    </Link>
-                </SidebarMenuButton>
-            </SidebarMenuItem>
-        }
-        )}
-    </SidebarMenu>
-}
-function Logout() {
-    return <SidebarMenu>
-        <SidebarMenuItem>
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <SidebarMenuButton
-                        size="lg"
-                        className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-                    >
-                        <Avatar className="h-8 w-8 rounded-lg">
-                            <AvatarImage src={'user.avatar'} alt={'user.name'} />
-                            <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-                        </Avatar>
-                        <div className="grid flex-1 text-left text-sm leading-tight">
-                            <span className="truncate font-medium">{'user.name'}</span>
-                            <span className="truncate text-xs">{"user.email"}</span>
-                        </div>
-                    </SidebarMenuButton>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                    className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-                    side={"bottom"}
-                    align="end"
-                    sideOffset={4}
-                >
-                    <DropdownMenuLabel className="p-0 font-normal">
-                        <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                            <Avatar className="h-8 w-8 rounded-lg">
-                                <AvatarImage src={'user.avatar'} alt={'user.name'} />
-                                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-                            </Avatar>
-                            <div className="grid flex-1 text-left text-sm leading-tight">
-                                <span className="truncate font-medium">{'user.name'}</span>
-                                <span className="truncate text-xs">{'user.email'}</span>
-                            </div>
-                        </div>
-                    </DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                        Log out
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
-        </SidebarMenuItem>
-    </SidebarMenu>
-}
+AppSidebar.SwitchAccount = SwitchAccounts;
+AppSidebar.Logout = Logout;
 
 
-AppSidebar.SideBarMenuLinks = SideBarMenuLinks

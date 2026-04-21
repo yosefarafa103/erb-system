@@ -8,7 +8,7 @@ import HeaderSearch from "./HeaderSearch"
 import { NotificationDropdown } from "./HeaderNotifications"
 const Header = () => {
     return (
-        <header className='flex items-center justify-between px-4 py-3 sticky top-0 bg-background z-10 border-b border-b-solid w-full right-0'>
+        <header className='flex items-center justify-between px-4 py-3 sticky top-0 bg-background z-1 border-b border-b-solid w-full right-0'>
             <section className='flex flex-col'>
                 <h3 className="text-xl mb-2"> لوحة التحكم الادمن  </h3>
                 <BreadcrumbWrapper />
@@ -21,8 +21,5 @@ const Header = () => {
         </header>
     )
 }
-
 export default Header
-
-
-Header.SearchInput = HeaderSearch
+Header.SearchInput = HeaderSearch;

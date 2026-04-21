@@ -1,6 +1,4 @@
 import BlockWrapper from "@/components/BlockWrapper";
-import { RoleBlock } from "../../_components/RoleBlock";
-import { users } from "../../constants/dashboard";
 import { AddUserDialog } from "../../_components/AddMemberDialog";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
@@ -9,8 +7,13 @@ import { User03Icon } from "@hugeicons/core-free-icons";
 import TableHeader from "../../_components/TableHeader";
 import TableFilterHeader from "../../_components/TableFilterHeader";
 import AuthorizationBlocks from "../../_components/AuthorizationBlocks";
+import { getUsersByTenant } from "@/app/(auth)/_services/users.service";
+import { getCurrentUser } from "@/app/(auth)/_services/auth.service";
 const UsersTable = dynamic(() => import("../../_components/tables/AdminsTable",))
-export default function page() {
+export default async function page() {
+    const currentUser = await getCurrentUser()
+    const users = await getUsersByTenant(currentUser.lastActiveTenant)
+
     return (
         <>
             <BlockWrapper>
@@ -36,7 +39,7 @@ export default function page() {
                 <Suspense fallback={<>Loading...</>}>
                     <TableHeader />
                     <TableFilterHeader />
-                    <UsersTable />
+                    <UsersTable users={users} />
                 </Suspense>
             </BlockWrapper>
         </>
