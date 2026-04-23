@@ -3,20 +3,19 @@ import type { NextRequest } from "next/server";
 
 export function proxy(req: NextRequest) {
     const token = req.cookies.get("token")?.value;
-    console.log(token, "middleware");
-    const isAuthPage = req.nextUrl.pathname.startsWith("/signin");
-
-    if (!token) {
+    const { pathname } = req.nextUrl;
+    const isAuthPage = pathname.startsWith("/signin");
+    if (!token && pathname.startsWith("/dashboard")) {
         return NextResponse.redirect(new URL("/signin", req.url));
     }
-
-    if (isAuthPage && token) {
+    if (token && isAuthPage) {
         return NextResponse.redirect(new URL("/dashboard", req.url));
     }
-
     return NextResponse.next();
 }
 
 export const config = {
-    matcher: ["/dashboard/:path*", "/"],
+    matcher: ["/dashboard/:path*", "/",
+        "/signin"
+    ],
 };

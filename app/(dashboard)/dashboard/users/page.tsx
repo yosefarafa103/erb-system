@@ -8,12 +8,10 @@ import TableHeader from "../../_components/TableHeader";
 import TableFilterHeader from "../../_components/TableFilterHeader";
 import AuthorizationBlocks from "../../_components/AuthorizationBlocks";
 import { getUsersByTenant } from "@/app/(auth)/_services/users.service";
-import { getCurrentUser } from "@/app/(auth)/_services/auth.service";
-const UsersTable = dynamic(() => import("../../_components/tables/AdminsTable",))
-export default async function page() {
-    const currentUser = await getCurrentUser()
-    const users = await getUsersByTenant(currentUser.lastActiveTenant)
-
+const UsersTable = dynamic(() => import("../../_components/tables/AdminsTable",), { ssr: false })
+export default async function page({ searchParams, }: PageProps<"/dashboard/users">) {
+    const { tenant }: { tenant: string } = await searchParams as { tenant: string }
+    const users = await getUsersByTenant(tenant)
     return (
         <>
             <BlockWrapper>

@@ -29,39 +29,26 @@ export function SwitchAccounts({ tenants, userName }: Props) {
     }
     const [isSwitching, setIsSwitching] = useState(false);
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const handleSwitchAccount = useCallback(async (tenant: string, tenentName: string) => {
+    const handleSwitchAccount = useCallback(async (tenant: string,) => {
         const prevTenant = currentTenantId;
-
         setCurrentTenantId(tenant);
         localStorage.setItem("currentTenent", tenant);
-
         setIsSwitching(true);
         showToast("success", "جاري تبديل حساب الشركة...", "", "rtl");
-
         try {
             await switchTenant(tenant);
-
             setTimeout(() => {
                 setIsSwitching(false);
                 router.push(`/dashboard/users?tenant=${tenant}`);
             }, 1000);
-
         } catch (error: any) {
             setCurrentTenantId(prevTenant);
             localStorage.setItem("currentTenent", prevTenant || "");
-
             setIsSwitching(false);
             showToast("error", error.message, "", "rtl");
         }
     }, [router, currentTenantId]);
     useLockBodyScroll(isSwitching)
-    // useEffect(() => {
-    //     const tenant = searchParams.get("tenant");
-    //     if (tenant) {
-    //         showToast("success", `تم التبديل إلى شركة ${tenant}`, "", "rtl");
-    //     }
-    // }, [searchParams, router]);
     const currentTenent: Tenent = useMemo(
         () => tenants.find(el => el.tenantId._id === currentTenantId)!,
         [tenants, currentTenantId]
@@ -112,7 +99,7 @@ export function SwitchAccounts({ tenants, userName }: Props) {
                             disabled={isCurrentTenent}
                             className={cn(isCurrentTenent ? "bg-purple-400/50" : "")}
                             key={company.tenantId._id}
-                            onClick={() => handleSwitchAccount(company.tenantId._id, company.tenantId.name)}
+                            onClick={() => handleSwitchAccount(company.tenantId._id)}
                         >
                             {isCurrentTenent ? <Check /> : null}
                             {company.tenantId.name}

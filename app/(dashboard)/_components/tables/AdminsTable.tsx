@@ -2,7 +2,8 @@
 import {
     useReactTable,
     getCoreRowModel,
-    flexRender
+    flexRender,
+    getPaginationRowModel
 } from "@tanstack/react-table";
 import {
     Table,
@@ -15,11 +16,14 @@ import {
 import { columns } from "./columns";
 import { adminDataTable as data } from "./data";
 import { Separator } from "@/components/ui/separator";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { selectFilteredUsers } from "../../helpers";
 import { useTableFilters } from "../../stores/useTableStore";
 import { useGlobalSearch } from "../../stores/useGlobalSearch";
 import { GetMeReponseType, User } from "../../_types/users";
+import { Button } from "@/components/ui/button";
+import { GreaterThanCircleFreeIcons, LessThanCircleFreeIcons } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 export default function UsersTable({ users }: { users: GetMeReponseType[] }) {
     const { search, role, status } = useTableFilters();
     const { searchMap } = useGlobalSearch();
@@ -27,10 +31,20 @@ export default function UsersTable({ users }: { users: GetMeReponseType[] }) {
         () => selectFilteredUsers(users, searchMap?.users || search, role, status),
         [users, searchMap?.users, role, status, search]
     );
+
+    const [pagination, setPagination] = useState({
+        pageIndex: 0,
+        pageSize: 3
+    });
     const table = useReactTable({
         data: filteredData,
         columns,
-        getCoreRowModel: getCoreRowModel()
+        getCoreRowModel: getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        onPaginationChange: setPagination,
+        state: {
+            pagination
+        }
     });
     const getUsersWithRoleByTenant = (users: GetMeReponseType[], tenantId: string) => {
         return users.map((user) => {
@@ -101,6 +115,21 @@ export default function UsersTable({ users }: { users: GetMeReponseType[] }) {
                         </TableCell>
                     </TableRow>
                     : null}
+            <div className="flex gap-2 items-center m-3 justify-end">
+                <Button
+                    onClick={() => table.previousPage()}
+                    disabled={!table.getCanPreviousPage()}
+                    variant="outline" size="icon-lg">
+                    <HugeiconsIcon
+                        size={22} icon={GreaterThanCircleFreeIcons} />
+                </Button>
+                <Button
+                    disabled={!table.getCanNextPage()}
+                    onClick={() => table.nextPage()}
+                    variant="outline" size="icon-lg">
+                    <HugeiconsIcon size={22} icon={LessThanCircleFreeIcons} />
+                </Button>
+            </div>
         </div>
     );
 }

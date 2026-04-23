@@ -37,7 +37,6 @@ export const getUsersByTenant = async (tenantId: string) => {
                 },
             }
         );
-
         if (!res.ok) {
             const error = await res.json();
             throw new Error(error.message || "Failed to get users");

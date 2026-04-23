@@ -8,8 +8,6 @@ import { getCurrentUser } from "@/app/(auth)/_services/auth.service"
 
 const AppSidebar = async ({ children }: { children: React.ReactNode }) => {
     const user = await getCurrentUser();
-    console.log(user);
-
     return (
         <SidebarProvider>
             <Sidebar side="right" >

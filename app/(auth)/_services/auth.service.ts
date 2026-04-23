@@ -18,9 +18,6 @@ export async function login(email: string, password: string): Promise<LoginRespo
     );
 
     const data: Promise<LoginResponse> = await res.json();
-
-
-
     return data
   } catch (error: any) {
     throw new Error(error.message)
