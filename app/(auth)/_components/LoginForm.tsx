@@ -13,6 +13,8 @@ export function LoginForm() {
         startTransition(async () => {
             try {
                 const result = await loginAction(formData);
+                console.log(result);
+
                 showToast("success", "تم تسجيل الدخول بنجاح", "", "rtl")
                 localStorage.setItem("userId", result.user._id)
                 localStorage.setItem("token", result.token)

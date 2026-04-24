@@ -6,10 +6,13 @@ import { journalEntries } from '@/app/(dashboard)/constants/accounting';
 import { Separator } from '@/components/ui/separator';
 import { JournalEntry, JournalEntryLine } from '@/app/(dashboard)/_types/accounting';
 import { useState } from 'react';
+import { useJournalStore } from '@/app/(dashboard)/_stores/useJournalStore';
 
 const DataTable = () => {
+    const entries = useJournalStore((s) => s.entries);
+
     const table = useReactTable({
-        data: journalEntries,
+        data: entries,
         columns,
         getCoreRowModel: getCoreRowModel()
     });
@@ -54,38 +57,41 @@ const DataTable = () => {
 export default DataTable
 
 
+DataTable.Cell = ({ row }: { row: Row<JournalEntry> }) => {
+    const [isOpen, setIsOpen] = useState(false);
 
-DataTable.Cell = ({ row, }: { row: Row<JournalEntry>, }) => {
-    const [isShowSubCell, setIsShowSubCell] = useState(false)
-    console.log();
-    const lines: JournalEntryLine[] = row.getValue("lines")
-    return <>
+    const lines = row.original.lines;
 
-        <TableRow onClick={() => setIsShowSubCell(!isShowSubCell)} key={row.id}>
-            {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
-                    {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                    )}
-                </TableCell>
-            ))}
-        </TableRow>
-        {isShowSubCell &&
-            <>
-                {lines.map(() => (
-                    <TableRow className='bg-accent mt-3 inline-flex w-full' onClick={() => setIsShowSubCell(!isShowSubCell)} key={row.id}>
-                        {row.getVisibleCells().map((cell) => (
-                            <TableCell key={cell.id}>
-                                {flexRender(
-                                    cell.column.columnDef.cell,
-                                    cell.getContext()
-                                )}
-                            </TableCell>
-                        ))}
-                    </TableRow>
+    return (
+        <>
+            <TableRow
+                onClick={() => setIsOpen((prev) => !prev)}
+                className="cursor-pointer"
+            >
+                {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
                 ))}
+            </TableRow>
+            <>
+
+                {isOpen &&
+                    lines.map((line) => (
+                        <TableRow
+                            key={line.account}
+                            className="bg-muted/50"
+                        >
+                            <TableCell colSpan={columns.length}>
+                                <div className="grid grid-cols-5 gap-4 px-4 py-2 text-sm w-full">
+                                    <span>{line.account}</span>
+                                    <span>{line.debit} دائن</span>
+                                    <span>{line.credit} مدين</span>
+                                </div>
+                            </TableCell>
+                        </TableRow>
+                    ))}
             </>
-        }
-    </>
-}
+        </>
+    );
+};

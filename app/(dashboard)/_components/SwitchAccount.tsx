@@ -82,7 +82,7 @@ export function SwitchAccounts({ tenants, userName }: Props) {
                                 <div className="text-right">
                                     <p className="text-sm font-semibold"> {userName} </p>
                                     <span className="text-xs group-hover:text-white!">
-                                        {rolesMap[currentTenent?.role as keyof typeof rolesMap]} - {currentTenent.tenantId.name}
+                                        {rolesMap[currentTenent?.role as keyof typeof rolesMap]} - {currentTenent?.tenantId.name}
                                     </span>
                                 </div>
                                 <HugeiconsIcon className="text-foreground" icon={ArrowDown} />

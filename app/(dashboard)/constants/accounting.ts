@@ -22,18 +22,12 @@ export const journalEntries: JournalEntry[] = [
         totalDebit: 10000,
         status: "posted",
         lines: [{
-            id: "JEL-001",
-            accountCode: "5001",
-            accountName: "مصروف ايجار",
-            description: "ايجار شهر 4",
+            account: "",
             debit: 10000,
             credit: 0
         },
         {
-            id: "JEL-002",
-            accountCode: "5002",
-            accountName: "مصروف ايجار",
-            description: "ايجار شهر 4",
+            "account": "",
             debit: 10000,
             credit: 0
         }],
@@ -48,10 +42,7 @@ export const journalEntries: JournalEntry[] = [
         totalDebit: 10000,
         status: "posted",
         lines: [{
-            id: "JEL-001",
-            accountCode: "5001",
-            accountName: "مصروف ايجار",
-            description: "ايجار شهر 4",
+            "account": "",
             debit: 10000,
             credit: 0
         }],
@@ -66,14 +57,36 @@ export const journalEntries: JournalEntry[] = [
         totalDebit: 10000,
         status: "posted",
         lines: [{
-            id: "JEL-001",
-            accountCode: "5001",
-            accountName: "مصروف ايجار",
-            description: "ايجار شهر 4",
+            "account": "",
             debit: 10000,
             credit: 0
         }],
         createdAt: "2025-10-05",
         reference: "عقد ايجار"
     }
-] 
+]
+
+
+export const ProfitLoss = [
+    { month: "Jan", revenue: 20000, expense: 12000 },
+    { month: "Feb", revenue: 25000, expense: 15000 },
+    { month: "Mar", revenue: 18000, expense: 10000 }
+]
+
+const expensesBreakdown = [
+    { category: "Rent", amount: 10000 },
+    { category: "Salaries", amount: 30000 },
+    { category: "Marketing", amount: 5000 }
+]
+
+const revenue = [
+    { month: "Jan", revenue: 20000 },
+    { month: "Feb", revenue: 25000 },
+    { month: "Mar", revenue: 18000 }
+]
+
+const cashFlow = [
+    { month: "Jan", in: 30000, out: 20000 },
+    { month: "Feb", in: 25000, out: 22000 },
+    { month: "Mar", in: 28000, out: 21000 }
+]

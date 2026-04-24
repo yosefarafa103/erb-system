@@ -1,9 +1,9 @@
 import { HugeiconsIcon, IconSvgElement } from "@hugeicons/react"
 import { HTMLAttributes, ReactNode } from "react";
 
-const Section = ({ children, }: SectionChildrenProps) => {
+const Section = ({ children, className }: SectionChildrenProps) => {
     return (
-        <section>
+        <section className={className} >
             {children}
         </section >
     )

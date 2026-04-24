@@ -1,14 +1,13 @@
 import Header from "../_components/Header"
-// import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 import AppSidebar from "../_components/AppSidebar"
 import { Suspense } from "react"
+import SidebarSkeleton from "@/components/SidebarSkilleton"
 
 export default function RolesLayout({
     children
 }: LayoutProps<"/dashboard">) {
-    // const queryClient = new QueryClient()
     return <>
-        <Suspense fallback={<>loading..</>}>
+        <Suspense fallback={<SidebarSkeleton />}>
             <AppSidebar>
                 <Header />
                 <main className="mt-2 bg-sidebar-accent min-h-svh p-3">

@@ -1,5 +1,7 @@
 "use server";
 import { getToken } from "@/app/(dashboard)/_helpers/getToken";
+import { GetMeReponseType as User } from "@/app/(dashboard)/_types/users";
+import { cacheTag, revalidateTag } from "next/cache";
 
 export const switchTenant = async (tenantId: string) => {
     const token = await getToken()
@@ -20,21 +22,24 @@ export const switchTenant = async (tenantId: string) => {
             const error = await res.json();
             throw new Error(error.message || "Failed to switch tenant");
         }
-
+        revalidateTag(`users_${tenantId}`, {})
         return res.json();
     } catch (error: any) {
         throw new Error(error.message || "Something went wrong");
     }
 };
 
-export const getUsersByTenant = async (tenantId: string) => {
+export const getUsersByTenant = async (tenantId: string): Promise<User[]> => {
+    "use cache";
+    cacheTag(`users_${tenantId}`)
     try {
         const res = await fetch(
-            `${process.env.BACKEND_BASE || "http://localhost:5000"}/users?tenantId=${tenantId}`,
+            `${process.env.BACKEND_BASE || "http://localhost:5000"}/users/get-tenant-users?tenantId=${tenantId}`,
             {
                 headers: {
                     "Content-Type": "application/json",
                 },
+
             }
         );
         if (!res.ok) {

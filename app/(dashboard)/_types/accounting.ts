@@ -12,12 +12,9 @@ interface AccountingAlert {
 }
 type JournalStatus = "posted" | "draft" | "canceled"
 interface JournalEntryLine {
-    id: string;
-    accountCode: string;
-    accountName: string;
-    description: string;
-    debit: number
-    credit: number
+    account: string;
+    debit: number;
+    credit: number;
 }
 interface JournalEntry {
     id: string;
@@ -30,6 +27,13 @@ interface JournalEntry {
     lines: JournalEntryLine[],
     createdAt: string
 }
+type Invoice = {
+    id: string;
+    customer: string;
+    date: string;
+    dueDate: string;
+    total: number;
+    status: string;
+};
 
-
-export type { AccountingAlert, AlertSeverity, AlertType, JournalEntry, JournalEntryLine }
+export type { AccountingAlert, AlertSeverity, AlertType, JournalEntry, JournalEntryLine, Invoice }
