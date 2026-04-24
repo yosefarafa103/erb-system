@@ -35,5 +35,19 @@ type Invoice = {
     total: number;
     status: string;
 };
+export type PaymentType = "payment" | "receipt";
 
+export type PaymentMethod = "cash" | "bank" | "card";
+
+export type Payment = {
+    id: string;
+    type: PaymentType;
+    contactName: string
+    contactType: "customer" | "vendor";
+    amount: number;
+    method: PaymentMethod;
+    date: string;
+    reference?: string;
+    invoiceId?: string;
+};
 export type { AccountingAlert, AlertSeverity, AlertType, JournalEntry, JournalEntryLine, Invoice }

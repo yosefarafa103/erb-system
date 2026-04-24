@@ -39,7 +39,6 @@ export const getUsersByTenant = async (tenantId: string): Promise<User[]> => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-
             }
         );
         if (!res.ok) {

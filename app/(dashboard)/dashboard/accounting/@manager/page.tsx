@@ -10,6 +10,7 @@ import { ChartPieInteractive } from "@/app/(dashboard)/_components/charts/Expens
 import { ChartLineDots } from "@/app/(dashboard)/_components/charts/RevenueCharts"
 import AddInvoiceDialog from "@/app/(dashboard)/_components/AddInvoiceDialog"
 import InvoicesTable from "@/app/(dashboard)/_components/tables/accounting/invoice/DataTable"
+import PaymentsTable from "@/app/(dashboard)/_components/tables/accounting/payments/DataTable"
 
 const page = () => {
     return (
@@ -47,6 +48,17 @@ const page = () => {
                     </div>
                     <Section.Children>
                         <InvoicesTable />
+                    </Section.Children>
+                </Section>
+            </BlockWrapper>
+
+            <BlockWrapper className="mt-3">
+                <Section>
+                    <div className="flex justify-between items-center gap-2">
+                        <Section.Title title="المدفوعات" />
+                    </div>
+                    <Section.Children>
+                        <PaymentsTable />
                     </Section.Children>
                 </Section>
             </BlockWrapper>
