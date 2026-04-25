@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils"
 import { Check } from "lucide-react"
 import { useLockBodyScroll } from "@/hooks/useBodyScroll"
 import { useTenantSync } from "../_hooks/useTenentSync"
+import { AddMemberToCompany } from "./AddPersonToCompany"
 type Props = Pick<GetMeReponseType, "tenants"> & { userName: string }
 export function SwitchAccounts({ tenants, userName }: Props) {
     const [currentTenantId, setCurrentTenantId] = useState<string | null>(
@@ -106,6 +107,10 @@ export function SwitchAccounts({ tenants, userName }: Props) {
                         </DropdownMenuItem>
                     }
                     )}
+
+                    <DropdownMenuLabel className="mt-4">اضافة اعضاء للشركة</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <AddMemberToCompany />
                 </DropdownMenuContent>
             </DropdownMenu>
         </>

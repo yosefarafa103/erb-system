@@ -18,7 +18,7 @@ export function showToast(
   };
   toast.custom((t) => (
     <div
-      dir={dir}
+      dir={dir || "rtl"}
       className="flex items-start gap-3 rounded-xl border bg-background p-4 shadow-lg min-w-100"
     >
       <div className="mt-1">{icons[type]}</div>

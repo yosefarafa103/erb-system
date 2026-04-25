@@ -4,10 +4,11 @@ type LoginResponse = {
   user: User
   token: string
 }
+export const url = process.env.NODE_ENV === "production" ? process.env.BACKEND_BASE : process.env.BACKEND_BASE_LOCAL_HOST
 export async function login(email: string, password: string): Promise<LoginResponse> {
   try {
     const res = await fetch(
-      `${process.env.BACKEND_BASE || "https://erb-api-fkhg.vercel.app"}/users/login`,
+      `${url}/users/login`,
       {
         method: "POST",
         headers: {
@@ -27,10 +28,10 @@ export async function login(email: string, password: string): Promise<LoginRespo
 export async function getCurrentUser(): Promise<User> {
   const token = (await cookies()).get("token")?.value
   try {
-    const currentUser = (await fetch(`${process.env.BACKEND_BASE || "https://erb-api-fkhg.vercel.app"}/users/get-me`, {
+    const currentUser = (await fetch(`${url}/users/get-me`, {
       credentials: "include",
       headers: {
-        "authorization": `Bearer ${token}`
+        "authorization": `Bearer ${token} `
       }
     }));
     return currentUser.json()
