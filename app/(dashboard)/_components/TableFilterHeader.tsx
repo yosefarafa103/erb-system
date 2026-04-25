@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
 import { Role } from '../_types';
 import { adminDataTable } from './tables/data';
-import { useTableFilters } from '../stores/useTableStore';
+import { useTableFilters } from '../_stores/useTableStore';
 
 const TableFilterHeader = () => {
     const fakeUsers = useMemo(() => Object.groupBy(adminDataTable, (user) => user.role), [adminDataTable])

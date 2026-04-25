@@ -1,7 +1,7 @@
 "use client"
 import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { columns } from "./columns"
-import { accountingAlerts } from '@/app/(dashboard)/constants/accounting';
+import { accountingAlerts } from '@/app/(dashboard)/_components/tables/accounting/accountingTable/data';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Separator } from '@/components/ui/separator';
 const AccountingTable = () => {

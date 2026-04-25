@@ -1,10 +1,9 @@
 import { create } from "zustand";
 import { JournalEntry } from "@/app/(dashboard)/_types/accounting";
-import { journalEntries as initialData } from "@/app/(dashboard)/constants/accounting";
+import { journalEntries as initialData } from "@/app/(dashboard)/_components/tables/accounting/JournalEntries/data";
 
 type JournalStore = {
     entries: JournalEntry[];
-
     addEntry: (entry: JournalEntry) => void;
     setEntries: (entries: JournalEntry[]) => void;
     clearEntries: () => void;

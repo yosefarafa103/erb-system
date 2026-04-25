@@ -7,7 +7,7 @@ export const switchTenant = async (tenantId: string) => {
     const token = await getToken()
     try {
         const res = await fetch(
-            `${process.env.BACKEND_BASE || "http://localhost:5000"}/users/switch-tenant`,
+            `${process.env.BACKEND_BASE || "https://erb-api-fkhg.vercel.app"}/users/switch-tenant`,
             {
                 method: "POST",
                 headers: {
@@ -34,7 +34,7 @@ export const getUsersByTenant = async (tenantId: string): Promise<User[]> => {
     cacheTag(`users_${tenantId}`)
     try {
         const res = await fetch(
-            `${process.env.BACKEND_BASE || "http://localhost:5000"}/users/get-tenant-users?tenantId=${tenantId}`,
+            `${process.env.BACKEND_BASE || "https://erb-api-fkhg.vercel.app"}/users/get-tenant-users?tenantId=${tenantId}`,
             {
                 headers: {
                     "Content-Type": "application/json",

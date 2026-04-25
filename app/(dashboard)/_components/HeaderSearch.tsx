@@ -2,7 +2,7 @@
 import { Input } from '@/components/ui/input'
 import { useCurretnTranslatedPath } from '../_hooks/useCurrentTranslatedPath';
 import { useEffect, useState } from 'react';
-import { useGlobalSearch } from '../stores/useGlobalSearch';
+import { useGlobalSearch } from '../_stores/useGlobalSearch';
 
 const HeaderSearch = () => {
     const [value, setValue] = useState<string>('')

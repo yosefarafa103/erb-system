@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { erpModules } from "../constants/dashboard";
+import { erpModules } from "../_constants/dashboard";
 
 type Keys = (typeof erpModules)[number]["key"];
 type SearchState<T> = {
@@ -9,9 +9,9 @@ type SearchState<T> = {
     resetSearch: (pathname: string) => void;
 };
 export const useGlobalSearch = create<SearchState<{}>>((set, get) => ({
+    // @ts-ignore
     searchMap: {},
     setSearch: (pathname, value) => {
-        // @ts-ignore
         set((state) => ({
             searchMap: {
                 ...state.searchMap,

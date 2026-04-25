@@ -1,0 +1,48 @@
+import { LedgerEntry } from "@/app/(dashboard)/_types/accounting";
+
+export const ledgerData: LedgerEntry[] = [
+    {
+        id: "GL-001",
+        date: "2026-04-01",
+        accountCode: "1001",
+        accountName: "الخزنة",
+        description: "تحصيل من عميل أحمد",
+        reference: "INV-1001",
+        debit: 5000,
+        credit: 0,
+        balance: 5000,
+    },
+    {
+        id: "GL-002",
+        date: "2026-04-02",
+        accountCode: "2001",
+        accountName: "الموردين",
+        description: "سداد لمورد شركة النور",
+        reference: "BILL-2001",
+        debit: 0,
+        credit: 12000,
+        balance: -7000,
+    },
+    {
+        id: "GL-003",
+        date: "2026-04-03",
+        accountCode: "4001",
+        accountName: "الإيرادات",
+        description: "فاتورة بيع",
+        reference: "INV-1002",
+        debit: 0,
+        credit: 7500,
+        balance: -14500,
+    },
+    {
+        id: "GL-004",
+        date: "2026-04-04",
+        accountCode: "5001",
+        accountName: "مصروفات",
+        description: "مصروف كهرباء",
+        reference: "EXP-3001",
+        debit: 2000,
+        credit: 0,
+        balance: -12500,
+    },
+];

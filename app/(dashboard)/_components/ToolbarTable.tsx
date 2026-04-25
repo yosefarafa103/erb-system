@@ -1,7 +1,7 @@
 "use client"
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useTableFilters } from "../stores/useTableStore";
+import { useTableFilters } from "../_stores/useTableStore";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 export default function TableFilters() {
     const {
@@ -10,7 +10,8 @@ export default function TableFilters() {
         status,
         setSearch,
         setStatus,
-        reset, setRole
+        reset,
+        setRole
     } = useTableFilters();
     return (
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-end mb-4 w-full">

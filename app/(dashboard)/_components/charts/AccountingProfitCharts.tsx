@@ -1,36 +1,27 @@
 "use client"
 
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
-
 import { ChartContainer, type ChartConfig, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-
-const chartData = [
-    { month: "January", desktop: 186, mobile: 80 },
-    { month: "February", desktop: 305, mobile: 200 },
-    { month: "March", desktop: 237, mobile: 120 },
-    { month: "April", desktop: 73, mobile: 190 },
-    { month: "May", desktop: 209, mobile: 130 },
-    { month: "June", desktop: 214, mobile: 140 },
-]
+import { chartData } from "./data"
 
 const chartConfig = {
     desktop: {
         label: "Desktop",
-        color: "#2563eb",
+        color: "#6e11b0",
     },
     mobile: {
         label: "Mobile",
-        color: "#60a5fa",
+        color: "oklab(0.71 0.12 -0.17 / 0.4)",
     },
 } satisfies ChartConfig
 
-export function ChartExample() {
+export default function ChartExample() {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Line Chart - Dots</CardTitle>
-                <CardDescription>January - June 2024</CardDescription>
+                <CardTitle>حسابات الايرادات والخسائر</CardTitle>
+                <CardDescription>يناير - يونيو 2024</CardDescription>
             </CardHeader>
             <CardContent>
                 <ChartContainer config={chartConfig} className="w-full">

@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
-import { GeneralUtils } from "../helpers/jsx";
+import { GeneralUtils } from "../_helpers/jsx";
 import { useMemo, } from "react";
 
 export function useCurretnTranslatedPath() {

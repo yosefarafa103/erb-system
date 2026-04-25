@@ -28,16 +28,11 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { desktopData } from "./data"
 
 export const description = "An interactive pie chart"
 
-const desktopData = [
-    { month: "january", desktop: 186, fill: "var(--color-january)" },
-    { month: "february", desktop: 305, fill: "var(--color-february)" },
-    { month: "march", desktop: 237, fill: "var(--color-march)" },
-    { month: "april", desktop: 173, fill: "var(--color-april)" },
-    { month: "may", desktop: 209, fill: "var(--color-may)" },
-]
+
 
 const chartConfig = {
     visitors: {
@@ -45,36 +40,37 @@ const chartConfig = {
     },
     desktop: {
         label: "Desktop",
+        color: "hsl(270 80% 55%)",
     },
     mobile: {
         label: "Mobile",
+        color: "hsl(270 70% 65%)",
     },
     january: {
         label: "January",
-        color: "var(--chart-1)",
+        color: "hsl(270 80% 50%)",
     },
     february: {
         label: "February",
-        color: "var(--chart-2)",
+        color: "hsl(270 75% 55%)",
     },
     march: {
         label: "March",
-        color: "var(--chart-3)",
+        color: "hsl(270 70% 60%)",
     },
     april: {
         label: "April",
-        color: "var(--chart-4)",
+        color: "hsl(270 65% 65%)",
     },
     may: {
         label: "May",
-        color: "var(--chart-5)",
+        color: "hsl(270 60% 70%)",
     },
 } satisfies ChartConfig
 
-export function ChartPieInteractive() {
+export default function ChartPieInteractive() {
     const id = "pie-interactive"
     const [activeMonth, setActiveMonth] = React.useState(desktopData[0].month)
-
     const activeIndex = React.useMemo(
         () => desktopData.findIndex((item) => item.month === activeMonth),
         [activeMonth]
@@ -119,11 +115,9 @@ export function ChartPieInteractive() {
                     <SelectContent align="end" className="rounded-xl">
                         {months.map((key) => {
                             const config = chartConfig[key as keyof typeof chartConfig]
-
                             if (!config) {
                                 return null
                             }
-
                             return (
                                 <SelectItem
                                     key={key}

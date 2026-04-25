@@ -97,7 +97,7 @@ export function SwitchAccounts({ tenants, userName }: Props) {
                         const isCurrentTenent = company.tenantId._id === currentTenent.tenantId._id
                         return <DropdownMenuItem
                             disabled={isCurrentTenent}
-                            className={cn(isCurrentTenent ? "bg-purple-400/50" : "")}
+                            className={cn(isCurrentTenent ? "bg-purple-400/50" : "", "mb-1")}
                             key={company.tenantId._id}
                             onClick={() => handleSwitchAccount(company.tenantId._id)}
                         >

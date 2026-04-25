@@ -50,4 +50,33 @@ export type Payment = {
     reference?: string;
     invoiceId?: string;
 };
+
+export type ContactType = "customer" | "vendor";
+
+export type Contact = {
+    id: string;
+    name: string;
+    type: ContactType;
+    phone?: string;
+    email?: string;
+    address?: string;
+    balance: number;
+    createdAt: string;
+};
+
+
+export type LedgerEntry = {
+    id: string;
+    date: string;
+    accountCode: string;
+    accountName: string;
+    description: string;
+    reference?: string;
+
+    debit: number;
+    credit: number;
+
+    balance: number
+};
+
 export type { AccountingAlert, AlertSeverity, AlertType, JournalEntry, JournalEntryLine, Invoice }

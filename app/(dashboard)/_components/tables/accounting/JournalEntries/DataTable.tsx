@@ -2,7 +2,6 @@
 import { flexRender, getCoreRowModel, Header, Row, useReactTable } from '@tanstack/react-table';
 import { columns } from "./columns"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { journalEntries } from '@/app/(dashboard)/constants/accounting';
 import { Separator } from '@/components/ui/separator';
 import { JournalEntry, JournalEntryLine } from '@/app/(dashboard)/_types/accounting';
 import { useState } from 'react';

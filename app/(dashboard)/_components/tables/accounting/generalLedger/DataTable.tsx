@@ -5,6 +5,7 @@ import {
     getCoreRowModel,
     flexRender,
 } from "@tanstack/react-table";
+
 import {
     Table,
     TableBody,
@@ -13,38 +14,35 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { columns } from "./columns";
-import { payments } from "./data";
 
-export default function PaymentsTable() {
+import { columns } from "./columns";
+import { ledgerData } from "./data";
+
+export default function LedgerTable() {
     const table = useReactTable({
-        data: payments,
+        data: ledgerData,
         columns,
         getCoreRowModel: getCoreRowModel(),
     });
 
     return (
-        <div className="rounded-lg border bg-background">
+        <div className="rounded-xl border bg-background">
             <Table>
-                {/* HEADER */}
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => (
                                 <TableHead key={header.id} className="text-right">
-                                    {header.isPlaceholder
-                                        ? null
-                                        : flexRender(
-                                            header.column.columnDef.header,
-                                            header.getContext()
-                                        )}
+                                    {flexRender(
+                                        header.column.columnDef.header,
+                                        header.getContext()
+                                    )}
                                 </TableHead>
                             ))}
                         </TableRow>
                     ))}
                 </TableHeader>
 
-                {/* BODY */}
                 <TableBody>
                     {table.getRowModel().rows.length ? (
                         table.getRowModel().rows.map((row) => (
@@ -62,7 +60,7 @@ export default function PaymentsTable() {
                     ) : (
                         <TableRow>
                             <TableCell colSpan={columns.length} className="text-center">
-                                لا يوجد بيانات
+                                لا يوجد قيود
                             </TableCell>
                         </TableRow>
                     )}

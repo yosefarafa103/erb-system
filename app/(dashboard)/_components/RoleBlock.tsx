@@ -10,7 +10,7 @@ import { Settings01Icon, UserSearchIcon } from "@hugeicons/core-free-icons";
 import Link from "next/link";
 import { toast } from "sonner";
 import { showToast } from "@/helpers/toast";
-import { useGlobalSearch } from "../stores/useGlobalSearch";
+import { useGlobalSearch } from "../_stores/useGlobalSearch";
 
 type RoleBlockProps = {
     title: string;

@@ -1,6 +1,6 @@
 "use client"
-import { usePathname } from "next/navigation"
-import { erpModules } from "../constants/dashboard"
+import { usePathname, useRouter } from "next/navigation"
+import { erpModules } from "../_constants/dashboard"
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, } from "@/components/ui/sidebar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -8,6 +8,8 @@ import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useTransition } from "react"
+import { logout } from "../_actions/logout"
 
 export function SideBarMenuLinks() {
     const pathname = usePathname()
@@ -36,6 +38,16 @@ type LogoutProps = {
 };
 
 export function Logout({ user, }: LogoutProps) {
+    const [isPending, startTransition] = useTransition();
+    const router = useRouter();
+
+    const handleLogout = () => {
+        startTransition(async () => {
+            await logout();
+            localStorage.clear()
+            router.push("/signin");
+        });
+    };
     return (
         <SidebarMenu>
             <SidebarMenuItem>
@@ -46,9 +58,11 @@ export function Logout({ user, }: LogoutProps) {
                             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                             asChild
                         >
-                            <Button variant="destructive" className="justify-start">
+                            <Button disabled={isPending} variant="destructive" className="justify-start">
                                 <LogOut />
-                                <h4>تسجيل الخروج</h4>
+                                <h4>
+                                    تسجيل الخروج
+                                </h4>
                             </Button>
                         </SidebarMenuButton>
                     </DropdownMenuTrigger>
@@ -78,10 +92,14 @@ export function Logout({ user, }: LogoutProps) {
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
+                            onSelect={(e) => {
+                                e.preventDefault();
+                            }}
+                            disabled={isPending}
                             variant="destructive"
-                            onClick={() => { }}
+                            onClick={handleLogout}
                         >
-                            تسجيل خروج
+                            {isPending ? "جاري تسجيل الخروج..." : "تسجيل خروج"}
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

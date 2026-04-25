@@ -1,8 +1,8 @@
 "use client";
 
 import { RoleBlock } from "./RoleBlock";
-import { users } from "../constants/dashboard";
-import { useGlobalSearch } from "../stores/useGlobalSearch";
+import { users } from "../_constants/dashboard";
+import { useGlobalSearch } from "../_stores/useGlobalSearch";
 import { useMemo } from "react";
 
 const AuthorizationBlocks = () => {
