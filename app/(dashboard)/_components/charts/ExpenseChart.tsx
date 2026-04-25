@@ -102,8 +102,8 @@ export default function ChartPieInteractive() {
             <ChartStyle id={id} config={chartConfig} />
             <CardHeader className="flex-row items-start space-y-0 pb-0">
                 <div className="grid gap-1">
-                    <CardTitle>Pie Chart - Interactive</CardTitle>
-                    <CardDescription>January - June 2024</CardDescription>
+                    <CardTitle>المصروفات</CardTitle>
+                    <CardDescription>المصروفات من شهر يناير الي يونيو 2025</CardDescription>
                 </div>
                 <Select value={activeMonth} onValueChange={setActiveMonth}>
                     <SelectTrigger

@@ -37,8 +37,8 @@ export default function ChartLineDots() {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Line Chart - Dots</CardTitle>
-                <CardDescription>January - June 2024</CardDescription>
+                <CardTitle>القيود اليومية</CardTitle>
+                <CardDescription>القيود اليومية من يناير الي يونيو 2025</CardDescription>
             </CardHeader>
             <CardContent>
                 <ChartContainer config={chartConfig}>

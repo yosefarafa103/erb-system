@@ -1,8 +1,6 @@
 "use server";
 
 import { getToken } from "@/app/(dashboard)/_helpers/getToken";
-import { url } from "../_services/auth.service";
-
 export async function addUserToTenantAction(
     userId: string,
     tenantId: string,
@@ -11,7 +9,7 @@ export async function addUserToTenantAction(
     try {
         const token = await getToken();
         const res = await fetch(
-            `${url}/users/add-to-tenant`,
+            `${process.env.BACKEND_BASE}/users/add-to-tenant`,
             {
                 method: "POST",
                 headers: {

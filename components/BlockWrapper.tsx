@@ -5,7 +5,7 @@ type Props = ChildrenType & {
 }
 export default function BlockWrapper({ className, children }: Props) {
     return (
-        <div className={cn("p-3 bg-background rounded-lg", className)}>
+        <div className={cn("p-3 bg-background rounded-lg mt-3", className)}>
             {children}
         </div>
     )

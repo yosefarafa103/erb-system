@@ -2,6 +2,7 @@
 import { getToken } from "@/app/(dashboard)/_helpers/getToken";
 import { GetMeReponseType as User } from "@/app/(dashboard)/_types/users";
 import { cacheTag, revalidateTag } from "next/cache";
+import { url } from "./auth.service";
 
 export const switchTenant = async (tenantId: string) => {
     const token = await getToken()
@@ -40,7 +41,7 @@ export const getUsersByTenant = async (tenantId: string): Promise<User[]> => {
 };
 export async function getTenentUsers(tenentId: string) {
     const res = await fetch(
-        `${process.env.BACKEND_BASE_LOCAL_HOST}/users/get-tenant-users?tenantId=${tenentId}`,
+        `${url}/users/get-tenant-users?tenantId=${tenentId}`,
         {
             headers: {
                 "Content-Type": "application/json",
