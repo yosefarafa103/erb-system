@@ -1,4 +1,3 @@
-"use client"
 import AddJournalEntryDialog from "@/app/(dashboard)/_components/AddJournalEntryDialog"
 import AccountingTable from "@/app/(dashboard)/_components/tables/accounting/accountingTable/AccountingTable"
 import DataTable from "@/app/(dashboard)/_components/tables/accounting/JournalEntries/DataTable"
@@ -8,10 +7,10 @@ import Section from "@/components/Section"
 import dynamic from "next/dynamic";
 
 import { ChartCardSkeleton } from "@/app/(dashboard)/_components/charts/CardSkeleton"
-const ChartExample = dynamic(() => import("@/app/(dashboard)/_components/charts/AccountingProfitCharts"), { ssr: false, loading: () => <ChartCardSkeleton /> });
-const ChartAreaInteractive = dynamic(() => import("@/app/(dashboard)/_components/charts/CashFlowCharts"), { ssr: false, loading: () => <ChartCardSkeleton /> });
-const ChartPieInteractive = dynamic(() => import("@/app/(dashboard)/_components/charts/ExpenseChart"), { ssr: false, loading: () => <ChartCardSkeleton /> });
-const ChartLineDots = dynamic(() => import("@/app/(dashboard)/_components/charts/RevenueCharts"), { ssr: false, loading: () => <ChartCardSkeleton /> });
+const ChartExample = dynamic(() => import("@/app/(dashboard)/_components/charts/AccountingProfitCharts"),);
+const ChartAreaInteractive = dynamic(() => import("@/app/(dashboard)/_components/charts/CashFlowCharts"),);
+const ChartPieInteractive = dynamic(() => import("@/app/(dashboard)/_components/charts/ExpenseChart"),);
+const ChartLineDots = dynamic(() => import("@/app/(dashboard)/_components/charts/RevenueCharts"),);
 import AddInvoiceDialog from "@/app/(dashboard)/_components/AddInvoiceDialog"
 import InvoicesTable from "@/app/(dashboard)/_components/tables/accounting/invoice/DataTable"
 import PaymentsTable from "@/app/(dashboard)/_components/tables/accounting/payments/DataTable"
@@ -19,7 +18,11 @@ import ContactsTable from "@/app/(dashboard)/_components/tables/accounting/conta
 import { Suspense } from "react"
 import LedgerTable from "@/app/(dashboard)/_components/tables/accounting/generalLedger/DataTable"
 import TableSkeleton from "@/components/TableSkeleton"
-const page = () => {
+import { JournalEntry } from "@/app/(dashboard)/_types/accounting"
+import { columns } from "@/app/(dashboard)/_components/tables/accounting/JournalEntries/columns"
+import { getJournalEntries } from "@/app/(dashboard)/_services/journal.service"
+const page = async () => {
+    const data = await getJournalEntries()
     return (
         <>
             <BlockWrapper className="mt-3">
@@ -43,10 +46,9 @@ const page = () => {
                 <Section>
                     <div className="flex justify-between">
                         <Section.Title title="القيود اليومية" />
-                        <AddJournalEntryDialog />
                     </div>
                     <Section.Children>
-                        <DataTable />
+                        <DataTable columns={columns} data={data} />
                     </Section.Children>
                 </Section>
             </BlockWrapper>
