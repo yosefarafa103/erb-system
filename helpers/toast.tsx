@@ -23,9 +23,9 @@ export function showToast(
     >
       <div className="mt-1">{icons[type]}</div>
       <div className="flex flex-col">
-        <p className="font-medium text-sm">{title}</p>
+        <p className="font-medium text-foreground text-sm">{title}</p>
         {description && (
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-foreground">
             {description}
           </p>
         )}

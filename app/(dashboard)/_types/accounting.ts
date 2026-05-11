@@ -16,16 +16,17 @@ interface JournalEntryLine {
     debit: number;
     credit: number;
 }
-interface JournalEntry {
-    id: string;
-    date: string;
-    reference: string;
-    description: string;
-    totalDebit: number
-    totalCredit: number
-    status: JournalStatus;
-    lines: JournalEntryLine[],
+type JournalEntry = {
+    _id: string
+    tenantId: string
+    reference: string
+    description?: string
+    sourceType: "sale" | "purchase" | "payment"
+    sourceId?: string
+    status: "draft" | "posted" | "reversed"
+    date: string
     createdAt: string
+    updatedAt: string
 }
 type Invoice = {
     id: string;
@@ -78,5 +79,31 @@ export type LedgerEntry = {
 
     balance: number
 };
-
+export type AccountCode =
+    | "CASH"
+    | "BANK"
+    | "ACCOUNTS_RECEIVABLE"
+    | "ACCOUNTS_PAYABLE"
+    | "INVENTORY"
+    | "SALES_REVENUE"
+    | "SERVICE_REVENUE"
+    | "RENT_EXPENSE"
+    | "SALARY_EXPENSE"
+    | "UTILITIES_EXPENSE"
+    | "OWNER_CAPITAL"
+    | "RETAINED_EARNINGS" |
+    "EXPENSE_ACCOUNT" |
+    "TRANSFER_SOURCE" |
+    "TRANSFER_DESTINATION" |
+    "MAIN_CASH" |
+    "BANK_ACCOUNT" |
+    "OTHER_INCOME" |
+    "CASH_DESTINATION" |
+    "CASH_SOURCE" |
+    "BANK_DESTINATION" |
+    "BANK_SOURCE"
+export type Rule = {
+    account: AccountCode;
+    type: "debit" | "credit";
+};
 export type { AccountingAlert, AlertSeverity, AlertType, JournalEntry, JournalEntryLine, Invoice }

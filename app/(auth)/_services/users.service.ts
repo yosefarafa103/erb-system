@@ -3,6 +3,7 @@ import { getToken } from "@/app/(dashboard)/_helpers/getToken";
 import { GetMeReponseType as User } from "@/app/(dashboard)/_types/users";
 import { cacheTag, revalidateTag } from "next/cache";
 import { url } from "./auth.service";
+
 export const switchTenant = async (tenantId: string) => {
     const token = await getToken()
     try {
@@ -28,6 +29,7 @@ export const switchTenant = async (tenantId: string) => {
         throw new Error(error.message || "Something went wrong");
     }
 };
+
 export const getUsersByTenant = async (tenantId: string): Promise<User[]> => {
     "use cache";
     cacheTag(`users_${tenantId}`)

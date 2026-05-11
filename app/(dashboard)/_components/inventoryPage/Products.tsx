@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Plus, Search } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 export default function ProductsModule() {
     const [products, setProducts] = useState([
@@ -93,17 +95,22 @@ export default function ProductsModule() {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>Name</TableHead>
-                                <TableHead>SKU</TableHead>
-                                <TableHead>Price</TableHead>
-                                <TableHead>Stock</TableHead>
+                                <TableHead className="text-right">Name</TableHead>
+                                <TableHead className="text-right">SKU</TableHead>
+                                <TableHead className="text-right">Price</TableHead>
+                                <TableHead className="text-right">Stock</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {filtered.map((product) => (
                                 <TableRow key={product.id}>
                                     <TableCell>{product.name}</TableCell>
-                                    <TableCell>{product.sku}</TableCell>
+                                    <TableCell className="flex gap-2">
+                                        <Label htmlFor={`${product.id.toString().split(" ")[0].toLowerCase()}`}>
+                                            Switch
+                                        </Label>
+                                        <Switch id={product.id.toString().split(" ")[0].toLowerCase()} />
+                                    </TableCell>
                                     <TableCell>{product.price}</TableCell>
                                     <TableCell>{product.stock}</TableCell>
                                 </TableRow>

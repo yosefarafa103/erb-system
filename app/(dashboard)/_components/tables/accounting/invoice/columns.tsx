@@ -1,58 +1,98 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
+import {
+    CheckCircle2,
+    Clock3,
+    MoreHorizontal,
+    Trash,
+    Verified,
+    XCircle,
+} from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
-import { Invoice } from "@/app/(dashboard)/_types/accounting";
+import { Button } from "@/components/ui/button";
 
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-export const columns: ColumnDef<Invoice>[] = [
+import { IInvoice } from "@/app/(dashboard)/_types/Invoices";
+import { updateInvoiceStatusAction } from "@/app/(dashboard)/_actions/updateInvoiceStatus";
+import { showToast } from "@/helpers/toast";
+import AddPaymentDialog from "../../../AddPaymentDialog";
+import LoadingDropdown from "@/components/LoadingDropdown";
+import { useState, useTransition } from "react";
+
+export const columns: ColumnDef<IInvoice>[] = [
     {
-        accessorKey: "id",
+        accessorKey: "_id",
         header: "رقم الفاتورة",
-        cell: ({ row }) => (
-            <span className="font-medium text-purple-500">
-                {row.getValue("id")}
-            </span>
-        ),
+
+        cell: ({ row }) => {
+            const id = row.getValue("_id") as string;
+
+            return (
+                <span className="font-mono text-xs font-medium text-purple-600">
+                    #{id.slice(-6).toUpperCase()}
+                </span>
+            );
+        },
     },
 
     {
-        accessorKey: "customer",
+        accessorKey: "customerId",
         header: "العميل",
-        cell: ({ row }) => (
-            <span className="text-muted-foreground">
-                {row.getValue("customer")}
-            </span>
-        ),
+
+        cell: ({ row }) => {
+            const customer = row.original.customerId as any;
+
+            return (
+                <span className="font-medium text-foreground">
+                    {typeof customer === "object"
+                        ? customer.name
+                        : "عميل غير معروف"}
+                </span>
+            );
+        },
     },
 
     {
-        accessorKey: "date",
-        header: "التاريخ",
-        cell: ({ row }) => (
-            <span>{row.getValue("date")}</span>
-        ),
-    },
+        accessorKey: "createdAt",
+        header: "تاريخ الإنشاء",
 
-    {
-        accessorKey: "dueDate",
-        header: "تاريخ الاستحقاق",
-        cell: ({ row }) => (
-            <span className="text-muted-foreground">
-                {row.getValue("dueDate")}
-            </span>
-        ),
+        cell: ({ row }) => {
+            const date = row.getValue("createdAt") as string;
+
+            if (!date) return "---";
+
+            return (
+                <span className="text-muted-foreground text-sm">
+                    {format(new Date(date), "dd/MM/yyyy")}
+                </span>
+            );
+        },
     },
 
     {
         accessorKey: "total",
         header: "الإجمالي",
+
         cell: ({ row }) => {
-            const value = row.getValue("total") as number;
+            const amount = parseFloat(row.getValue("total"));
+
+            const formatted = new Intl.NumberFormat("ar-EG", {
+                style: "currency",
+                currency: "EGP",
+            }).format(amount);
 
             return (
                 <span className="font-bold text-foreground">
-                    {value.toLocaleString("ar-EG")} جنيه
+                    {formatted}
                 </span>
             );
         },
@@ -61,24 +101,214 @@ export const columns: ColumnDef<Invoice>[] = [
     {
         accessorKey: "status",
         header: "الحالة",
+
         cell: ({ row }) => {
-            const status = row.getValue("status") as Invoice["status"];
+            const invoice = row.original;
 
             const statusMap: Record<
-                Invoice["status"],
-                { label: string; className: string }
+                string,
+                {
+                    label: string;
+                    className: string;
+                }
             > = {
-                draft: { label: "مسودة", className: "bg-gray-500" },
-                posted: { label: "مرحلة", className: "bg-blue-500" },
-                paid: { label: "مدفوعة", className: "bg-green-500" },
-                overdue: { label: "متأخرة", className: "bg-red-500" },
+                draft: {
+                    label: "مسودة",
+                    className:
+                        "bg-gray-100 text-gray-700 border-gray-200",
+                },
+
+                confirmed: {
+                    label: "مؤكدة",
+                    className:
+                        "bg-blue-100 text-blue-700 border-blue-200",
+                },
+
+                partial: {
+                    label: "دفع جزئي",
+                    className:
+                        "bg-yellow-100 text-yellow-700 border-yellow-200",
+                },
+
+                paid: {
+                    label: "مدفوعة",
+                    className:
+                        "bg-green-100 text-green-700 border-green-200",
+                },
+
+                cancelled: {
+                    label: "ملغاة",
+                    className:
+                        "bg-red-100 text-red-700 border-red-200",
+                },
+            };
+
+            const config =
+                statusMap[invoice.status] ||
+                statusMap.draft;
+
+            const isDisabled =
+                invoice.status !== "draft";
+
+            const handleStatusChange = async (
+            ) => {
+                try {
+                    await updateInvoiceStatusAction(
+                        invoice._id,
+                    );
+                    showToast("success", "تم تحديث حالة الفاتورة بنجاح", "", "rtl")
+
+                } catch (error) {
+                    console.log(error);
+                    showToast("error", "فشل تعديل حالة الفاتورة", "", "rtl")
+                }
             };
 
             return (
-                <Badge className={statusMap[status].className}>
-                    {statusMap[status].label}
-                </Badge>
+                <div className="flex items-center gap-2">
+                    <Badge className={config.className}>
+                        {config.label}
+                    </Badge>
+
+
+                </div>
             );
         },
     },
+    {
+        id: "actions",
+
+        header: "إجراءات",
+
+        cell: ({ row }) => {
+            const invoice = row.original;
+            const [open, setOpen] =
+                useState(false);
+            const [
+                isPending,
+                startTransition,
+            ] = useTransition();
+            const isDraft =
+                invoice.status === "draft";
+
+            const isConfirmed =
+                invoice.status ===
+                "confirmed";
+
+            const customerId =
+                typeof invoice.customerId ===
+                    "object"
+                    ? invoice.customerId._id
+                    : invoice.customerId;
+
+            const handleConfirm =
+                () => {
+                    startTransition(
+                        async () => {
+                            try {
+                                await updateInvoiceStatusAction(
+                                    invoice._id
+                                );
+                                setOpen(false);
+                            } catch (error) {
+                                console.log(
+                                    error
+                                );
+                            }
+                        }
+                    );
+                };
+
+            const handleCancel =
+                () => {
+                    startTransition(
+                        async () => {
+                            try {
+                                await updateInvoiceStatusAction(
+                                    invoice._id
+                                );
+
+                                setOpen(false);
+                            } catch (error) {
+                                console.log(
+                                    error
+                                );
+                            }
+                        }
+                    );
+                };
+
+            return (
+                <div className="flex justify-start">
+                    <LoadingDropdown
+                        open={open}
+                        onOpenChange={(
+                            value
+                        ) => {
+                            // يمنع قفل الـ dropdown أثناء الـ mutation
+                            if (
+                                isPending
+                            )
+                                return;
+
+                            setOpen(value);
+                        }}
+                        trigger={
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                disabled={
+                                    isPending
+                                }
+                            >
+                                <MoreHorizontal className="w-4 h-4" />
+                            </Button>
+                        }
+                        content={
+                            <div className="flex flex-col gap-1">
+                                {/* confirm invoice */}
+                                <Button
+                                    variant="outline"
+                                    disabled={
+                                        !isDraft ||
+                                        isPending
+                                    }
+                                    className="justify-between"
+                                    onClick={
+                                        handleConfirm
+                                    }
+                                >
+                                    {isPending
+                                        ? "جاري التنفيذ..."
+                                        : "تأكيد الفاتورة"}
+
+                                    <Verified
+                                        size={18}
+                                    />
+                                </Button>
+
+                                {/* add payment */}
+                                <AddPaymentDialog
+                                    invoiceId={
+                                        invoice._id
+                                    }
+                                    customerId={
+                                        customerId
+                                    }
+                                    totalAmount={
+                                        invoice.total
+                                    }
+                                    disabled={
+                                        !isConfirmed ||
+                                        isPending
+                                    }
+                                />
+
+                            </div>
+                        }
+                    />
+                </div>
+            );
+        },
+    }
 ];
