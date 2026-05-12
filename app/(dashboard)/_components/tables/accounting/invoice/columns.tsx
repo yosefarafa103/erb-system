@@ -147,23 +147,6 @@ export const columns: ColumnDef<IInvoice>[] = [
                 statusMap[invoice.status] ||
                 statusMap.draft;
 
-            const isDisabled =
-                invoice.status !== "draft";
-
-            const handleStatusChange = async (
-            ) => {
-                try {
-                    await updateInvoiceStatusAction(
-                        invoice._id,
-                    );
-                    showToast("success", "تم تحديث حالة الفاتورة بنجاح", "", "rtl")
-
-                } catch (error) {
-                    console.log(error);
-                    showToast("error", "فشل تعديل حالة الفاتورة", "", "rtl")
-                }
-            };
-
             return (
                 <div className="flex items-center gap-2">
                     <Badge className={config.className}>

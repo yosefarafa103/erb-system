@@ -10,9 +10,11 @@ import { LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTransition } from "react"
 import { logout } from "../_actions/logout"
+import { useTenantSync } from "../_hooks/useTenentSync"
 
 export function SideBarMenuLinks() {
     const pathname = usePathname()
+    const { tenant } = useTenantSync()
     return <SidebarMenu>
         {erpModules.map((module) => {
             const Icon = module.icon
@@ -20,7 +22,7 @@ export function SideBarMenuLinks() {
             return <SidebarMenuItem key={module.title.ar}>
                 <SidebarMenuButton isActive={isActive} >
                     <Icon className={cn("w-5 h-5")} />
-                    <Link className="flex w-full" href={module.path}>
+                    <Link className="flex w-full" href={module.path + "?tenant=" + tenant}>
                         <span>{module.title.ar}</span>
                     </Link>
                 </SidebarMenuButton>

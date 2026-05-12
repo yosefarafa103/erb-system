@@ -1,61 +1,49 @@
 "use client";
-
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
-
-export type Payment = {
-    id: string;
-    type: "payment" | "receipt";
-    contactName: string;
-    contactType: "customer" | "vendor";
-    amount: number;
-    method: "cash" | "bank" | "card";
-    date: string;
-};
-
-export const columns: ColumnDef<Payment>[] = [
+import { PaymentRecord } from "@/app/(dashboard)/_hooks/usePayments";
+export const columns: ColumnDef<PaymentRecord>[] = [
     {
-        accessorKey: "id",
+        accessorKey: "_id",
         header: "الرقم",
-        cell: ({ row }) => (
-            <span className="font-medium text-purple-500">
-                {row.getValue("id")}
-            </span>
-        ),
+        cell: ({ row }) => {
+            const id = row.original._id;
+            return (
+                <span className="font-medium text-purple-500">
+                    #{id ? id.slice(-5) : "---"}
+                </span>
+            );
+        },
     },
 
     {
-        accessorKey: "type",
+        accessorKey: "direction",
         header: "النوع",
         cell: ({ row }) => {
-            const type = row.getValue("type") as Payment["type"];
+            const direction = row.original.direction;
+            const isReceipt = direction === "in";
 
             return (
-                <Badge className={type === "receipt" ? "bg-green-500" : "bg-red-500"}>
-                    {type === "receipt" ? "تحصيل" : "دفعة"}
+                <Badge className={isReceipt ? "bg-green-500" : "bg-red-500"}>
+                    {isReceipt ? "تحصيل" : "دفعة"}
                 </Badge>
             );
         },
     },
 
     {
-        accessorKey: "contactName",
+        accessorKey: "invoiceId.customerId.name",
         header: "الطرف",
-        cell: ({ row }) => (
-            <span>{row.getValue("contactName")}</span>
-        ),
-    },
-
-    {
-        accessorKey: "contactType",
-        header: "النوع",
         cell: ({ row }) => {
-            const type = row.getValue("contactType") as Payment["contactType"];
-
+            const contactName = row.original?.createdBy?.name || "بدون اسم";
+            console.log(row.original);
             return (
-                <Badge variant="outline">
-                    {type === "customer" ? "عميل" : "مورد"}
-                </Badge>
+                <div className="flex flex-col">
+                    <span className="font-medium">{contactName}</span>
+                    <span className="text-[10px] text-muted-foreground">
+                        فاتورة: {row.original.invoiceId?.invoiceNumber || "---"}
+                    </span>
+                </div>
             );
         },
     },
@@ -64,11 +52,10 @@ export const columns: ColumnDef<Payment>[] = [
         accessorKey: "amount",
         header: "المبلغ",
         cell: ({ row }) => {
-            const value = row.getValue("amount") as number;
-
+            const value = row.original.amount;
             return (
                 <span className="font-bold text-foreground">
-                    {value.toLocaleString("ar-EG")} جنيه
+                    {value?.toLocaleString("ar-EG")} ج.م
                 </span>
             );
         },
@@ -78,24 +65,45 @@ export const columns: ColumnDef<Payment>[] = [
         accessorKey: "method",
         header: "طريقة الدفع",
         cell: ({ row }) => {
-            const method = row.getValue("method");
-
+            const method = row.original.method;
             const map: Record<string, string> = {
                 cash: "كاش",
                 bank: "تحويل بنكي",
                 card: "كارت",
+                wallet: "محفظة",
             };
 
             return (
-                <span className="text-muted-foreground">
-                    {map[method as string]}
+                <span className="text-muted-foreground text-sm">
+                    {map[method] || method}
                 </span>
             );
         },
     },
 
     {
-        accessorKey: "date",
+        accessorKey: "status",
+        header: "الحالة",
+        cell: ({ row }) => {
+            const status = row.original.status;
+            return (
+                <Badge variant="outline" className={status === "posted" ? "border-blue-500 text-blue-600" : ""}>
+                    {status === "posted" ? "مؤكد" : "معلق"}
+                </Badge>
+            );
+        },
+    },
+
+    {
+        accessorKey: "createdAt",
         header: "التاريخ",
+        cell: ({ row }) => {
+            const date = row.original.createdAt;
+            return (
+                <span className="text-xs text-muted-foreground">
+                    {date ? new Date(date).toLocaleDateString("ar-EG") : "---"}
+                </span>
+            );
+        }
     },
 ];

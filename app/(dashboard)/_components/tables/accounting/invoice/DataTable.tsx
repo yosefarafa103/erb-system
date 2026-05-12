@@ -19,16 +19,16 @@ import { IInvoice } from "@/app/(dashboard)/_types/Invoices";
 import { usePaginationTable } from "@/app/(dashboard)/_hooks/usePagnationTable";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import TableSkeleton from "@/components/TableSkeleton";
 interface Props {
-    data: IInvoice[]
+    data: IInvoice[],
 }
-export default function InvoicesTable({ data }: Props) {
+export default function InvoicesTable({ data, }: Props) {
     const { getHeaderGroups, getRowModel, getState, getPageCount, getCanPreviousPage, previousPage, nextPage, getCanNextPage } = usePaginationTable({
         data,
         columns,
         pageSize: 5
     })
-
     return (
         <>
             <div className="border rounded-lg">
