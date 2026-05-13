@@ -24,7 +24,7 @@ export const usePayments = (
             if (!tenantId) return [];
 
             const { data } = await axios.get(
-                `http://localhost:5000/payments`,
+                `https://erb-api-fkhg.vercel.app/payments`,
                 {
                     params: {
                         tenentId: tenantId

@@ -19,7 +19,7 @@ export const usePaymentStatus = (
 
         queryFn: async () => {
             const { data } = await axios.get(
-                `http://localhost:5000/invoices/${invoiceId}/payment-status`
+                `https://erb-api-fkhg.vercel.app/invoices/${invoiceId}/payment-status`
             );
 
             return data;

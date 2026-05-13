@@ -1,6 +1,6 @@
 export async function getAllProducts(token?: string) {
 
-    const res = await fetch("http://localhost:5000/products", {
+    const res = await fetch("http:///products", {
         headers: {
             Authorization: `Bearer ${token}`
         }
